@@ -1,8 +1,9 @@
-# Plan: prj-4188-task-mugswra2
+# Plan: task-mugswra2
 
 **Project:** `PRJ-16`  
 **Task ID:** `task-mugswra2`  
 **Repo:** `prj-4188-task-mugswra2`  
+**Progress:** 1/4 subtasks done
 
 ## Summary
 
@@ -10,40 +11,36 @@
 
 ## Subtasks
 
-### 1. Создать репозиторий и базовую структуру
+### ⏳ 1. Создать репозиторий и базовую структуру
 
 - **ID:** `sub-1`
 - **Profile:** `20razrab1`
-- **Tester:** `TBD`
-- **Status:** `pending`
+- **Status:** `unknown`
 - **Description:** Создать публичный репозиторий prj-4188-task-mugswra2 в GitHub-аккаунте ZhenyaRUS39, инициализировать с README.md и .gitignore (Python). Создать структуру каталогов: src/ (исходники webhook-сервера), tests/ (тесты), requirements.txt (fastapi, uvicorn, httpx, pytest).
 - **Test plan:** Репозиторий существует по ссылке gh_link, клонируется, содержит README.md, .gitignore, requirements.txt и пустые директории src/ и tests/.
 
-### 2. Реализовать async webhook endpoint
+### ⬜ 2. Реализовать async webhook endpoint
 
 - **ID:** `sub-2`
 - **Profile:** `20razrab1`
-- **Tester:** `TBD`
 - **Status:** `pending`
 - **Description:** В src/ создать app.py (FastAPI) с POST /webhook, который принимает JSON payload, ставит задачу в background через asyncio.create_task, имитирует обработку (sleep 1-2 сек + логирование) и возвращает 202 Accepted с job_id. Должен корректно обрабатывать множественные параллельные вызовы.
 - **Test plan:** Локально запускается uvicorn src.app:app, POST /webhook с тестовым payload возвращает 202 и job_id; повторный POST /webhook/jobs/{job_id} возвращает статус обработки (pending/done).
 - **Dependencies:** `sub-1`
 
-### 3. Написать unit и integration тесты
+### ⬜ 3. Написать unit и integration тесты
 
 - **ID:** `sub-3`
 - **Profile:** `30razrab2`
-- **Tester:** `TBD`
 - **Status:** `pending`
 - **Description:** В tests/ добавить test_webhook.py с pytest-тестами: проверка 202 ответа, проверка что job_id уникален, проверка что background task завершается (через httpx.AsyncClient + ASGITransport), проверка обработки нескольких параллельных запросов.
 - **Test plan:** pytest tests/ -v проходит все тесты (минимум 4 теста), coverage по app.py не менее 80%.
 - **Dependencies:** `sub-2`
 
-### 4. Добавить webhook-subscriptions скилл и итоговую верификацию
+### ⬜ 4. Добавить webhook-subscriptions скилл и итоговую верификацию
 
 - **ID:** `sub-4`
 - **Profile:** `30razrab2`
-- **Tester:** `TBD`
 - **Status:** `pending`
 - **Description:** Создать GitHub Action или скрипт scripts/verify_webhook.py, который запускает сервер, отправляет webhook через webhook-subscriptions и проверяет асинхронную обработку. Прогнать локально и убедиться, что end-to-end сценарий работает. Обновить README.md инструкцией по запуску.
 - **Test plan:** scripts/verify_webhook.py запускается локально, отправляет 5 параллельных webhook-ов и получает 5 job_id; все job-ы достигают статуса done за время < 5 сек.
